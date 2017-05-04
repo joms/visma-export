@@ -102,10 +102,6 @@ func printInvoice(report []Report) {
     writer.Flush()
 }
 
-func structToSlice() {
-
-}
-
 func outputLine() []string {
     var result []string
 
