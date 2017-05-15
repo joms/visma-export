@@ -10,9 +10,10 @@ type SqlConfig struct {
     Username string
     Password string
     Database string
+    Oldest string
 }
 
-func GenerateSqlConfig(conf *ini.Section, err error) *SqlConfig {
+func GenerateSQLConfig(conf *ini.Section, err error) *SqlConfig {
     if (err != nil) {
         fmt.Println(err)
     }
@@ -37,10 +38,16 @@ func GenerateSqlConfig(conf *ini.Section, err error) *SqlConfig {
         fmt.Println(err)
     }
 
+    oldest, err := conf.GetKey("OLDESTORDER")
+    if (err != nil) {
+        fmt.Println(err)
+    }
+
     return &SqlConfig{
         Host: host.String(),
         Username: user.String(),
         Password: pass.String(),
         Database: db.String(),
+        Oldest: oldest.String(),
     }
 }

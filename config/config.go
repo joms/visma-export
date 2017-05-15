@@ -17,7 +17,7 @@ func GetConfig() *Config {
         fmt.Println(err)
     }
 
-    sql := GenerateSqlConfig(cfg.GetSection("sql"))
+    sql := GenerateSQLConfig(cfg.GetSection("sql"))
     conf.SQL = sql
 
     return conf

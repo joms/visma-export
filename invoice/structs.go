@@ -11,8 +11,6 @@ type Report struct {
 }
 
 type AddressLine struct {
-    Actor string
-    RecType string
     Adress4 string
     CustomerNumber string  `gorm:"column:CustomerNo"`
     CustomerName string  `gorm:"column:Name"`

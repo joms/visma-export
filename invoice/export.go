@@ -5,20 +5,24 @@ import (
     "fmt"
     "encoding/csv"
     "os"
+    "invoice_export/config"
 )
 
 var (
     db *gorm.DB
+    invoiceList []string
 )
 
-func Export(dbCon *gorm.DB) {
+func Export(dbCon *gorm.DB, dbConf *config.SqlConfig) {
     var reportLines []Report
     db = dbCon
+
+    invoiceList = loadList()
 
     reportRows, err := db.Raw(`Select o.OrderID,c.CustomerNo,o.DeliveryDate
                         From Orders as o
                         left join Customers as c on O.CustomerID = c.CustomerID
-                        where o.OrderType = 2`).Rows()
+                        where o.OrderType = 2 and o.OrderDate >= ?`, dbConf.Oldest).Rows()
     defer reportRows.Close()
     if (err != nil) {
         fmt.Println(err)
@@ -31,15 +35,20 @@ func Export(dbCon *gorm.DB) {
         db.ScanRows(reportRows, &orderHeading)
         report.H = orderHeading
 
+        if (isInvoiceDone(report.H.OrderCSOrdNo)) {
+            continue
+        }
+
         report.A = getAddressRow(report.H.OrderCSOrdNo)
         report.L = getInvoices(report.H.OrderCSOrdNo)
         getInvoices(report.H.OrderCSOrdNo)
 
         reportLines = append(reportLines, report)
+        saveDone(report.H.OrderCSOrdNo)
     }
 
     printInvoice(reportLines)
-    //fmt.Printf("%+v\n", reportLines)
+    writeList(invoiceList)
 }
 
 func getAddressRow(orderID string) AddressLine{
@@ -102,8 +111,16 @@ func printInvoice(report []Report) {
     writer.Flush()
 }
 
-func outputLine() []string {
-    var result []string
+func isInvoiceDone(invoiceNumber string) bool {
+    for _, b := range invoiceList {
+        if b == invoiceNumber {
+            return true
+        }
+    }
 
-    return result
+    return false
+}
+
+func saveDone(invoiceNumber string) {
+    invoiceList = append(invoiceList, invoiceNumber)
 }

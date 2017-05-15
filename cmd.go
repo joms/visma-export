@@ -10,5 +10,5 @@ import (
 func main() {
     conf := config.GetConfig()
     conn := sql.Connect(conf.SQL)
-    invoice.Export(conn)
+    invoice.Export(conn, conf.SQL)
 }
