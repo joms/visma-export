@@ -11,12 +11,16 @@ var path = ".exportedlist"
 
 func loadList() []string {
     var _, err = os.Stat(path)
+    if err != nil {
+        fmt.Println(err)
+    }
 
 	// create file if not exists
 	if os.IsNotExist(err) {
-		var file, err = os.Create(path)
-		if err != nil {
+		var file, fileErr = os.Create(path)
+		if fileErr != nil {
             fmt.Println(err)
+            fmt.Println(fileErr)
         }
 		defer file.Close()
 	}

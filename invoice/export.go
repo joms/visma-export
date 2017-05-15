@@ -13,8 +13,9 @@ var (
     invoiceList []string
 )
 
-func Export(dbCon *gorm.DB, dbConf *config.SqlConfig) {
-    var reportLines []Report
+// Export invoices into Visma readable format
+func Export(dbCon *gorm.DB, dbConf *config.SQLConfig) {
+    var reportLines []report
     db = dbCon
 
     invoiceList = loadList()
@@ -29,30 +30,30 @@ func Export(dbCon *gorm.DB, dbConf *config.SqlConfig) {
     }
 
     for reportRows.Next() {
-        var report Report
+        var reportRow report
 
-        var orderHeading OrderHeading
+        var orderHeading orderHeading
         db.ScanRows(reportRows, &orderHeading)
-        report.H = orderHeading
+        reportRow.H = orderHeading
 
-        if (isInvoiceDone(report.H.OrderCSOrdNo)) {
+        if (isInvoiceDone(reportRow.H.OrderCSOrdNo)) {
             continue
         }
 
-        report.A = getAddressRow(report.H.OrderCSOrdNo)
-        report.L = getInvoices(report.H.OrderCSOrdNo)
-        getInvoices(report.H.OrderCSOrdNo)
+        reportRow.A = getAddressRow(reportRow.H.OrderCSOrdNo)
+        reportRow.L = getInvoices(reportRow.H.OrderCSOrdNo)
+        getInvoices(reportRow.H.OrderCSOrdNo)
 
-        reportLines = append(reportLines, report)
-        saveDone(report.H.OrderCSOrdNo)
+        reportLines = append(reportLines, reportRow)
+        saveDone(reportRow.H.OrderCSOrdNo)
     }
 
     printInvoice(reportLines)
     writeList(invoiceList)
 }
 
-func getAddressRow(orderID string) AddressLine{
-    var addressHeading AddressLine
+func getAddressRow(orderID string) addressLine{
+    var addressHeading addressLine
         db.Raw(`Select c.CustomerNo,C.Name,C.MailingAddress,C.MailingZip,C.MailingCity,YourRef,C.Phone,C.Email,e.EmployeeID, p.Days,projects.ProjectNo From Orders
                 left join Customers as c on orders.customerId = c.CustomerID
                 left join PaymentTerms as p on orders.PaymentTermId = p.PaymentTermID
@@ -63,8 +64,8 @@ func getAddressRow(orderID string) AddressLine{
     return addressHeading
 }
 
-func getInvoices(OrderID string) []InvoiceLine {
-    var invoices []InvoiceLine
+func getInvoices(OrderID string) []invoiceLine {
+    var invoices []invoiceLine
 
     invoiceRows, err := db.Raw(`Select a.ArticleNo,lines.Description,lines.Count,lines.GrossPrice
                                 from OrderLines as lines
@@ -76,7 +77,7 @@ func getInvoices(OrderID string) []InvoiceLine {
     }
 
     for invoiceRows.Next() {
-        var invoice InvoiceLine
+        var invoice invoiceLine
         db.ScanRows(invoiceRows, &invoice)
         invoices = append(invoices, invoice)
     }
@@ -84,7 +85,7 @@ func getInvoices(OrderID string) []InvoiceLine {
     return invoices
 }
 
-func printInvoice(report []Report) {
+func printInvoice(report []report) {
     file, err := os.Create("result.edi")
     if err != nil {
         fmt.Println(err)

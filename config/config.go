@@ -5,10 +5,12 @@ import (
     "github.com/go-ini/ini"
 )
 
+// Config structure for the SQL connection
 type Config struct {
-    SQL *SqlConfig
+    SQL *SQLConfig
 }
 
+// GetConfig fetches configuration from the ini configuration file
 func GetConfig() *Config {
     conf := new(Config)
 

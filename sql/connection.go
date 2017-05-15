@@ -6,7 +6,8 @@ import (
     "fmt"
 )
 
-func Connect(conf *config.SqlConfig) *gorm.DB {
+// Connect to the SQL database
+func Connect(conf *config.SQLConfig) *gorm.DB {
   dbCon, err := gorm.Open("mssql", "sqlserver://"+conf.Username+":"+conf.Password+"@"+conf.Host+":1433?database="+conf.Database)
   if err != nil {
       fmt.Println("From Connect() attempt: " + err.Error())

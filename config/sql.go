@@ -5,7 +5,8 @@ import (
     "github.com/go-ini/ini"
 )
 
-type SqlConfig struct {
+// SQLConfig structure
+type SQLConfig struct {
     Host string
     Username string
     Password string
@@ -13,7 +14,8 @@ type SqlConfig struct {
     Oldest string
 }
 
-func GenerateSQLConfig(conf *ini.Section, err error) *SqlConfig {
+// GenerateSQLConfig from the ini configuration data
+func GenerateSQLConfig(conf *ini.Section, err error) *SQLConfig {
     if (err != nil) {
         fmt.Println(err)
     }
@@ -43,7 +45,7 @@ func GenerateSQLConfig(conf *ini.Section, err error) *SqlConfig {
         fmt.Println(err)
     }
 
-    return &SqlConfig{
+    return &SQLConfig{
         Host: host.String(),
         Username: user.String(),
         Password: pass.String(),

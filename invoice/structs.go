@@ -4,13 +4,13 @@ import (
     "reflect"
 )
 
-type Report struct {
-    A AddressLine
-    H OrderHeading
-    L []InvoiceLine
+type report struct {
+    A addressLine
+    H orderHeading
+    L []invoiceLine
 }
 
-type AddressLine struct {
+type addressLine struct {
     Adress4 string
     CustomerNumber string  `gorm:"column:CustomerNo"`
     CustomerName string  `gorm:"column:Name"`
@@ -31,7 +31,7 @@ type AddressLine struct {
     ProjectNumber string `gorm:"column:ProjectNo"`
 }
 
-func (a AddressLine) ToSlice() []string {
+func (a addressLine) ToSlice() []string {
     strArr := []string{"A"}
 
     msValuePtr := reflect.ValueOf(&a)
@@ -48,7 +48,7 @@ func (a AddressLine) ToSlice() []string {
     return strArr;
 }
 
-type OrderHeading struct {
+type orderHeading struct {
     OrderNumber1 string
     OrderNumber2 string
     OrderType string
@@ -131,7 +131,7 @@ type OrderHeading struct {
     HeadStatus string
 }
 
-func (o OrderHeading) ToSlice() []string {
+func (o orderHeading) ToSlice() []string {
     strArr := []string{"H"}
 
     msValuePtr := reflect.ValueOf(&o)
@@ -148,7 +148,7 @@ func (o OrderHeading) ToSlice() []string {
     return strArr;
 }
 
-type InvoiceLine struct {
+type invoiceLine struct {
     OrderlineLnNo string
     OrderlineProdNo string `gorm:"column:ArticleNo"`
     OrderlineDescr string `gorm:"column:Description"`
@@ -224,7 +224,7 @@ type InvoiceLine struct {
     RecType string
 }
 
-func (i InvoiceLine) ToSlice() []string {
+func (i invoiceLine) ToSlice() []string {
     strArr := []string{"L"}
 
     msValuePtr := reflect.ValueOf(&i)
