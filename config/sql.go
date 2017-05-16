@@ -12,6 +12,7 @@ type SQLConfig struct {
     Password string
     Database string
     Oldest string
+    Port int
 }
 
 // GenerateSQLConfig from the ini configuration data
@@ -45,11 +46,17 @@ func GenerateSQLConfig(conf *ini.Section, err error) *SQLConfig {
         fmt.Println(err)
     }
 
+    port, err := conf.GetKey("PORT")
+    if (err != nil) {
+        fmt.Println(err)
+    }
+
     return &SQLConfig{
         Host: host.String(),
         Username: user.String(),
         Password: pass.String(),
         Database: db.String(),
         Oldest: oldest.String(),
+        Port: port.MustInt(1433),
     }
 }
