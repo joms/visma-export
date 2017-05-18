@@ -95,6 +95,23 @@ func printInvoice(report []report) {
     writer.Comma = ';'
 
     writer.Write([]string{"1", "1"})
+    writer.Flush()
+
+    for i := 0; i < len(report); i++ {
+        elem := report[i]
+
+        file.WriteString(elem.A.ToCSV()+"\n")
+        file.WriteString(elem.H.ToCSV()+"\n")
+
+        for x := 0; x < len(elem.L); x++ {
+            nl := "\n"
+            if x == len(elem.L) - 1 && i == len(report) - 1 {
+                nl = ""
+            }
+
+            file.WriteString(elem.L[x].ToCSV()+nl)
+        }
+    }
 
     for _, elem := range report {
         err := writer.Write(elem.A.ToSlice())
@@ -108,8 +125,6 @@ func printInvoice(report []report) {
             writer.Write(l.ToSlice())
         }
     }
-
-    writer.Flush()
 }
 
 func isInvoiceDone(invoiceNumber string) bool {

@@ -45,7 +45,24 @@ func (a addressLine) ToSlice() []string {
         strArr = append(strArr, str)
     }
 
-    return strArr;
+    return strArr
+}
+
+func (a addressLine) ToCSV() string {
+    csvStr := "A;"
+
+    msValuePtr := reflect.ValueOf(&a)
+    msValue := msValuePtr.Elem()
+
+    for i := 0; i < msValue.NumField(); i++ {
+        field := msValue.Field(i)
+
+        str := field.Interface().(string) + ";"
+
+        csvStr += str
+    }
+
+    return csvStr
 }
 
 type orderHeading struct {
@@ -148,6 +165,23 @@ func (o orderHeading) ToSlice() []string {
     return strArr;
 }
 
+func (o orderHeading) ToCSV() string {
+    csvStr := "H;"
+
+    msValuePtr := reflect.ValueOf(&o)
+    msValue := msValuePtr.Elem()
+
+    for i := 0; i < msValue.NumField(); i++ {
+        field := msValue.Field(i)
+
+        str := field.Interface().(string) + ";"
+
+        csvStr += str
+    }
+
+    return csvStr
+}
+
 type invoiceLine struct {
     OrderlineLnNo string
     OrderlineProdNo string `gorm:"column:ArticleNo"`
@@ -239,4 +273,21 @@ func (i invoiceLine) ToSlice() []string {
     }
 
     return strArr;
+}
+
+func (i invoiceLine) ToCSV() string {
+    csvStr := "L;"
+
+    msValuePtr := reflect.ValueOf(&i)
+    msValue := msValuePtr.Elem()
+
+    for i := 0; i < msValue.NumField(); i++ {
+        field := msValue.Field(i)
+
+        str := field.Interface().(string) + ";"
+
+        csvStr += str
+    }
+
+    return csvStr
 }
