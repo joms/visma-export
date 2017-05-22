@@ -52,7 +52,7 @@ OLDESTORDER=2017-05-10
 When running `cmd.go` the program will fetch the contents of `config.ini`
 and build a configuration based on this data. When connecting to the database
 it'll start fetching orders that are no older than the `OLDESTORDER` parameter
-and that the order is'nt listed in `.exportedlist`, massaging the data and
+and that the order isn't listed in `.exportedlist`, massaging the data and
 print it out to `result.edi`.
 
 When an order is processed, the `orderid` will be saved in `.exportedlist` to
