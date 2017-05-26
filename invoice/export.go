@@ -35,6 +35,8 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig) {
         var orderHeading orderHeading
         db.ScanRows(reportRows, &orderHeading)
         reportRow.H = orderHeading
+        reportRow.H.HeadStatus = "-1"
+        reportRow.H.OrderType = "2"
 
         if (isInvoiceDone(reportRow.H.OrderCSOrdNo)) {
             continue
