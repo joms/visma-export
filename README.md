@@ -17,6 +17,10 @@ Ensure that `$GOPATH` and `$GOROOT` is [configured correct](https://golang.org/d
 
 Run `go run cmd.go` to run the project locally without compiling it.
 
+## Multiple databases
+
+If the program needs to be run on multiple databases, create a folder for each database with the built exporter and configuration file for each database in each folder.
+
 ## Build
 
 Run `go build cmd.go` on a compatible platform. This will output a compiled executable
@@ -59,3 +63,16 @@ When an order is processed, the `orderid` will be saved in `.exportedlist` to
 ensure that an order isn't processed twice.   
 If an already processed order needs to be processed again, one just have to
 remove the `orderid` from `.exportedlist`.
+
+# Maintenance
+
+## Running slow
+
+If the software seems to be running slow, edit `config.ini` and move `OLDESTORDER`
+ahead by a fitting period of time. Clearing `.exportedlist` in the same
+process will make the loading of already parsed orders speed up.
+
+## Scheduled task
+
+- [Windows](https://technet.microsoft.com/en-us/library/cc721931.aspx)
+- [Linux](http://kvz.io/blog/2007/07/29/schedule-tasks-on-linux-using-crontab/)
