@@ -57,7 +57,11 @@ func (a addressLine) ToCSV() string {
     for i := 0; i < msValue.NumField(); i++ {
         field := msValue.Field(i)
 
-        str := field.Interface().(string) + ";"
+        str := field.Interface().(string)
+
+        if i < msValue.NumField() {
+            str += ";"
+        }
 
         csvStr += str
     }
@@ -174,7 +178,11 @@ func (o orderHeading) ToCSV() string {
     for i := 0; i < msValue.NumField(); i++ {
         field := msValue.Field(i)
 
-        str := field.Interface().(string) + ";"
+        str := field.Interface().(string)
+
+        if i < msValue.NumField() {
+            str += ";"
+        }
 
         csvStr += str
     }
@@ -284,7 +292,11 @@ func (i invoiceLine) ToCSV() string {
     for i := 0; i < msValue.NumField(); i++ {
         field := msValue.Field(i)
 
-        str := field.Interface().(string) + ";"
+        str := field.Interface().(string)
+
+        if i < msValue.NumField() {
+            str += ";"
+        }
 
         csvStr += str
     }

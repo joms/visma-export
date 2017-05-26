@@ -6,6 +6,7 @@ import (
     "encoding/csv"
     "os"
     "invoice_export/config"
+    "time"
 )
 
 var (
@@ -44,6 +45,7 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig) {
 
         reportRow.A = getAddressRow(reportRow.H.OrderCSOrdNo)
         reportRow.L = getInvoices(reportRow.H.OrderCSOrdNo)
+
         getInvoices(reportRow.H.OrderCSOrdNo)
 
         reportLines = append(reportLines, reportRow)
@@ -81,52 +83,46 @@ func getInvoices(OrderID string) []invoiceLine {
     for invoiceRows.Next() {
         var invoice invoiceLine
         db.ScanRows(invoiceRows, &invoice)
+        invoice.RecType = "-1"
         invoices = append(invoices, invoice)
     }
 
     return invoices
 }
 
+// Magic
 func printInvoice(report []report) {
-    file, err := os.Create("result.edi")
+    t := time.Now()
+    now := t.Format("2006-01-02T1504")
+
+    // Create our file and ensure that it is empty
+    file, err := os.Create("result"+now+".edi")
     if err != nil {
         fmt.Println(err)
     }
 
+    // Create a new CSV writer
     writer := csv.NewWriter(file)
     writer.Comma = ';'
 
+    // Write the header line
     writer.Write([]string{"1", "1"})
-    writer.Flush()
 
-    for i := 0; i < len(report); i++ {
-        elem := report[i]
-
-        file.WriteString(elem.A.ToCSV()+"\n")
-        file.WriteString(elem.H.ToCSV()+"\n")
-
-        for x := 0; x < len(elem.L); x++ {
-            nl := "\n"
-            if x == len(elem.L) - 1 && i == len(report) - 1 {
-                nl = ""
-            }
-
-            file.WriteString(elem.L[x].ToCSV()+nl)
-        }
-    }
-
+    // Write actual content
     for _, elem := range report {
-        err := writer.Write(elem.A.ToSlice())
-        if (err != nil) {
-            fmt.Println(err)
-        }
+        // Write address header line
+        writer.Write(elem.A.ToSlice())
 
+        // Write order Head line
         writer.Write(elem.H.ToSlice())
 
+        // Loop through order lines
         for _, l := range elem.L {
+            // Write order line
             writer.Write(l.ToSlice())
         }
     }
+    writer.Flush()
 }
 
 func isInvoiceDone(invoiceNumber string) bool {
