@@ -22,11 +22,11 @@ type addressLine struct {
     ExtraInfo1 string
     ExtraInfo2 string
     YourReference string `gorm:"column:YourRef"`
-    Phone string `gorm:"column:Phone"`
     Email string `gorm:"column:Email"`
+    Phone string `gorm:"column:Phone"`
     CountryCode string
-    LanguageCode string
     Seller string `gorm:"column:EmployeeID"`
+    LanguageCode string
     PaymentTerms string
     ProjectNumber string `gorm:"column:ProjectNo"`
 }
@@ -71,7 +71,6 @@ func (a addressLine) ToCSV() string {
 
 type orderHeading struct {
     OrderNumber1 string
-    OrderNumber2 string
     OrderType string
     OrderCSOrdNo string `gorm:"column:OrderID;primary_key"`
     OrderInf string
@@ -146,7 +145,6 @@ type orderHeading struct {
     OrderGr6 string
     OrderInf3 string
     OrderInf4 string
-    OrderInf5 string
     OrderNoteNm string
     OrderInvoPl string
     HeadStatus string
