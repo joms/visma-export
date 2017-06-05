@@ -104,6 +104,7 @@ func printInvoice(report []report) {
     // Create a new CSV writer
     writer := csv.NewWriter(file)
     writer.Comma = ';'
+    writer.UseCRLF = true
 
     // Write the header line
     writer.Write([]string{"1", "1"})
