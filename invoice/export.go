@@ -21,9 +21,10 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig) {
 
     invoiceList = loadList()
 
-    reportRows, err := db.Raw(`Select o.OrderID,c.CustomerNo,o.DeliveryDate
+    reportRows, err := db.Raw(`Select o.OrderID,c.CustomerNo,o.DeliveryDate,d.DepartmentNo
                         From Orders as o
                         left join Customers as c on O.CustomerID = c.CustomerID
+                        left join Departments as d on d.DepartmentID = o.DepartmentID
                         where o.OrderType = 2 and o.OrderDate >= ?`, dbConf.Oldest).Rows()
     defer reportRows.Close()
     if (err != nil) {
