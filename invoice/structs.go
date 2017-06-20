@@ -111,7 +111,7 @@ type orderHeading struct {
     OrderOrdPref string
     OrderR1 string
     OrderR2 string
-    OrderR3 string
+    OrderR3 string `gorm:"column:DepartmentNo"`
     OrderR4 string
     OrderR5 string
     OrderR6 string
@@ -147,6 +147,8 @@ type orderHeading struct {
     OrderInf4 string
     OrderNoteNm string
     OrderInvoPl string
+	Semicolon1     string
+	Semicolon2     string
     HeadStatus string
 }
 
