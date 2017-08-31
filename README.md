@@ -38,6 +38,7 @@ to run on the target system.
 | PASSWORD    | admin123   | Password for SQL user            |
 | DATABASE    | pck        | Name of SQL database to run over |
 | OLDESTORDER | 2017-12-30 | The oldest date to process       |
+| SAVEDIR     | C:\temp    | Save directory for report file   |
 
 ```
 [sql]
@@ -49,6 +50,10 @@ PASSWORD=123
 DATABASE=kode
 ;Oldest date to process
 OLDESTORDER=2017-05-10
+[misc]
+;Where to save the report
+SAVEDIR=C:\temp
+
 ```
 
 # How does it work
