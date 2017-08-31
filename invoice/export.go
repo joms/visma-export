@@ -98,35 +98,37 @@ func printInvoice(report []report) {
 	t := time.Now()
 	now := t.Format("2006-01-02T1504")
 
-	// Create our file and ensure that it is empty
-	file, err := os.Create("result" + now + ".edi")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	// Create a new CSV writer
-	writer := csv.NewWriter(file)
-	writer.Comma = ';'
-	writer.UseCRLF = true
-
-	// Write the header line
-	writer.Write([]string{"1", "1"})
-
-	// Write actual content
-	for _, elem := range report {
-		// Write address header line
-		writer.Write(elem.A.ToSlice())
-
-		// Write order Head line
-		writer.Write(elem.H.ToSlice())
-
-		// Loop through order lines
-		for _, l := range elem.L {
-			// Write order line
-			writer.Write(l.ToSlice())
+	if len(report) > 0 {
+		// Create our file and ensure that it is empty
+		file, err := os.Create("result" + now + ".edi")
+		if err != nil {
+			fmt.Println(err)
 		}
+
+		// Create a new CSV writer
+		writer := csv.NewWriter(file)
+		writer.Comma = ';'
+		writer.UseCRLF = true
+
+		// Write the header line
+		writer.Write([]string{"1", "1"})
+
+		// Write actual content
+		for _, elem := range report {
+			// Write address header line
+			writer.Write(elem.A.ToSlice())
+
+			// Write order Head line
+			writer.Write(elem.H.ToSlice())
+
+			// Loop through order lines
+			for _, l := range elem.L {
+				// Write order line
+				writer.Write(l.ToSlice())
+			}
+		}
+		writer.Flush()
 	}
-	writer.Flush()
 }
 
 func isInvoiceDone(invoiceNumber string) bool {
