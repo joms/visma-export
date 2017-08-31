@@ -3,9 +3,9 @@ package invoice
 import (
 	"encoding/csv"
 	"fmt"
-	"invoice_export/config"
 	"os"
 	"time"
+	"visma-export/config"
 
 	"github.com/jinzhu/gorm"
 )
@@ -16,7 +16,7 @@ var (
 )
 
 // Export invoices into Visma readable format
-func Export(dbCon *gorm.DB, dbConf *config.SQLConfig) {
+func Export(dbCon *gorm.DB, dbConf *config.SQLConfig, miscConf *config.MiscConfig) {
 	var reportLines []report
 	db = dbCon
 
@@ -55,7 +55,7 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig) {
 		saveDone(reportRow.H.OrderCSOrdNo)
 	}
 
-	printInvoice(reportLines)
+	printInvoice(miscConf.SaveDir, dbConf.Database, reportLines)
 	writeList(invoiceList)
 }
 
@@ -94,13 +94,13 @@ func getInvoices(OrderID string) []invoiceLine {
 }
 
 // Magic
-func printInvoice(report []report) {
+func printInvoice(path string, dbname string, report []report) {
 	t := time.Now()
 	now := t.Format("2006-01-02T1504")
 
 	if len(report) > 0 {
 		// Create our file and ensure that it is empty
-		file, err := os.Create("result" + now + ".edi")
+		file, err := os.Create(path + "/" + dbname + now + ".edi")
 		if err != nil {
 			fmt.Println(err)
 		}

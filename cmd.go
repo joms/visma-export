@@ -1,14 +1,15 @@
 package main
 
 import (
-    _ "github.com/jinzhu/gorm/dialects/mssql"
-    "invoice_export/config"
-    "invoice_export/sql"
-    "invoice_export/invoice"
+	"visma-export/config"
+	"visma-export/invoice"
+	"visma-export/sql"
+
+	_ "github.com/jinzhu/gorm/dialects/mssql"
 )
 
 func main() {
-    conf := config.GetConfig()
-    conn := sql.Connect(conf.SQL)
-    invoice.Export(conn, conf.SQL)
+	conf := config.GetConfig()
+	conn := sql.Connect(conf.SQL)
+	invoice.Export(conn, conf.SQL, conf.Misc)
 }
