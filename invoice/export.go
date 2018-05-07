@@ -74,7 +74,7 @@ func getAddressRow(orderID string) addressLine {
 func getInvoices(OrderID string) []invoiceLine {
 	var invoices []invoiceLine
 
-	invoiceRows, err := db.Raw(`Select a.ArticleNo,lines.Description,lines.Count,lines.GrossPrice,lines.NetAmount
+	invoiceRows, err := db.Raw(`Select a.ArticleNo,lines.Description,lines.Count,lines.GrossPrice,lines.NetAmount,a.SalesPrice
                                 from OrderLines as lines
                                 left join Articles as a on lines.ArticleID = a.ArticleID
                                 WHERE lines.OrderID = ?`, OrderID).Rows()

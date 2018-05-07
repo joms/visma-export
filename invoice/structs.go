@@ -196,7 +196,7 @@ type invoiceLine struct {
 	OrderlineProdNo   string `gorm:"column:ArticleNo"`
 	OrderlineDescr    string `gorm:"column:Description"`
 	OrderlineNoInvoAb string `gorm:"column:Count"`
-	OrderlinePrice    string `gorm:"column:NetAmount"`
+	OrderlinePrice    string `gorm:"column:SalesPrice"`
 	OrderlineCCstPr   string
 	OrderlineCstPr    string
 	OrderlineCur      string
