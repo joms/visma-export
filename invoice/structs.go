@@ -195,7 +195,6 @@ type invoiceLine struct {
     OrderlineProdNo string `gorm:"column:ArticleNo"`
     OrderlineDescr string `gorm:"column:Description"`
     OrderlineNoInvoAb string `gorm:"column:Count"`
-    OrderlinePrice string `gorm:"column:GrossPrice"`
     OrderlineCCstPr string
     OrderlineCstPr string
     OrderlineCur string
@@ -264,6 +263,7 @@ type invoiceLine struct {
     LineStatus string
     DummyLayout string
     RecType string
+	OrderlinePrice    string `gorm:"column:NetAmount"`
 }
 
 func (i invoiceLine) ToSlice() []string {

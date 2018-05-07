@@ -22,7 +22,7 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig, miscConf *config.MiscConfi
 
 	invoiceList = loadList()
 
-	reportRows, err := db.Raw(`Select o.OrderID,c.CustomerNo,o.DeliveryDate,d.DepartmentNo
+	reportRows, err := db.Raw(`Select o.OrderID,c.CustomerNo,o.DeliveryDate,d.DepartmentNo,d.Name AS DepartmentName,o.Reference
                         From Orders as o
                         left join Customers as c on O.CustomerID = c.CustomerID
                         left join Departments as d on d.DepartmentID = o.DepartmentID
@@ -74,7 +74,7 @@ func getAddressRow(orderID string) addressLine {
 func getInvoices(OrderID string) []invoiceLine {
 	var invoices []invoiceLine
 
-	invoiceRows, err := db.Raw(`Select a.ArticleNo,lines.Description,lines.Count,lines.GrossPrice
+	invoiceRows, err := db.Raw(`Select a.ArticleNo,lines.Description,lines.Count,lines.GrossPrice,lines.NetAmount
                                 from OrderLines as lines
                                 left join Articles as a on lines.ArticleID = a.ArticleID
                                 WHERE lines.OrderID = ?`, OrderID).Rows()
