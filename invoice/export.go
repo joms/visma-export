@@ -41,6 +41,7 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig, miscConf *config.MiscConfi
 		reportRow.H.HeadStatus = "-1"
 		reportRow.H.OrderType = "2"
 		reportRow.H.OrderGr5 = reportRow.H.OrderCSOrdNo
+		reportRow.H.Semicolon3 = miscConf.CashRegister
 
 		if isInvoiceDone(reportRow.H.OrderCSOrdNo) {
 			continue

@@ -8,6 +8,7 @@ import (
 // Misc configuration structure
 type MiscConfig struct {
   SaveDir string
+  CashRegister string
 }
 
 func GenerateMiscConfig(conf *ini.Section, err error) *MiscConfig {
@@ -20,7 +21,13 @@ func GenerateMiscConfig(conf *ini.Section, err error) *MiscConfig {
     fmt.Println(err)
   }
 
+  cashregister, err := conf.GetKey("CASHREGISTER")
+  if (err != nil) {
+    fmt.Println(err)
+  }
+
   return &MiscConfig{
     SaveDir: savedir.String(),
+    CashRegister: cashregister.String(),
   }
 }
