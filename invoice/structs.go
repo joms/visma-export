@@ -1,7 +1,9 @@
 package invoice
 
 import (
+	"fmt"
 	"reflect"
+	"time"
 )
 
 type report struct {
@@ -92,7 +94,7 @@ type orderHeading struct {
 	FirmPNo        string
 	FirmPArea      string
 	OrderOrdDt     string
-	OrderDelDt     string `gorm:"column:DeliveryDate"`
+	OrderDelDt     string `gorm:"column:OrderDate"`
 	OrderCfDelDt   string
 	OrderPmtTrm    string
 	OrderPmtMt     string
@@ -151,6 +153,17 @@ type orderHeading struct {
 	Semicolon1     string
 	Semicolon2     string
 	HeadStatus     string
+}
+
+func orderDateToVismaDate(s string) string {
+	t, err := time.Parse("2006-01-02T15:04:05Z", s)
+
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+
+	return t.Format("02012006")
 }
 
 func (o orderHeading) ToSlice() []string {

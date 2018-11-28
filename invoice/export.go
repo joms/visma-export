@@ -22,11 +22,12 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig, miscConf *config.MiscConfi
 
 	invoiceList = loadList()
 
-	reportRows, err := db.Raw(`Select o.OrderID,c.CustomerNo,o.DeliveryDate,d.DepartmentNo,d.Name AS DepartmentName,o.Reference
+	reportRows, err := db.Raw(`Select o.OrderID,c.CustomerNo,o.DeliveryDate,o.OrderDate,d.DepartmentNo,d.Name AS DepartmentName,o.Reference
                         From Orders as o
                         left join Customers as c on O.CustomerID = c.CustomerID
                         left join Departments as d on d.DepartmentID = o.DepartmentID
-                        where o.OrderType = 2 and o.OrderDate >= ?`, dbConf.Oldest).Rows()
+						where o.OrderType = 2 and o.OrderDate >= ?`, dbConf.Oldest).Rows()
+
 	defer reportRows.Close()
 	if err != nil {
 		fmt.Println(err)
@@ -42,6 +43,7 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig, miscConf *config.MiscConfi
 		reportRow.H.OrderType = "2"
 		reportRow.H.OrderGr5 = reportRow.H.OrderCSOrdNo
 		reportRow.H.Semicolon3 = miscConf.CashRegister
+		reportRow.H.OrderDelDt = orderDateToVismaDate(reportRow.H.OrderDelDt)
 
 		if isInvoiceDone(reportRow.H.OrderCSOrdNo) {
 			continue
