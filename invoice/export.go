@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 	"time"
-	"visma-export/config"
+	"github.com/joms/visma-export/config"
 
 	"github.com/jinzhu/gorm"
 )

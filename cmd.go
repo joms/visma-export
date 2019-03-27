@@ -1,9 +1,9 @@
 package main
 
 import (
-	"visma-export/config"
-	"visma-export/invoice"
-	"visma-export/sql"
+	"github.com/joms/visma-export/config"
+	"github.com/joms/visma-export/invoice"
+	"github.com/joms/visma-export/sql"
 
 	_ "github.com/jinzhu/gorm/dialects/mssql"
 )

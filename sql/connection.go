@@ -3,7 +3,7 @@ package sql
 import (
 	"fmt"
 	"strconv"
-	"visma-export/config"
+	"github.com/joms/visma-export/config"
 
 	"github.com/jinzhu/gorm"
 )
