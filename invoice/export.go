@@ -43,7 +43,7 @@ func Export(dbCon *gorm.DB, dbConf *config.SQLConfig, miscConf *config.MiscConfi
 		reportRow.H.OrderType = "2"
 		reportRow.H.OrderGr5 = reportRow.H.OrderCSOrdNo
 		reportRow.H.Semicolon3 = miscConf.CashRegister
-		reportRow.H.OrderDelDt = orderDateToVismaDate(reportRow.H.OrderDelDt)
+		reportRow.H.OrderOrdDt = orderDateToVismaDate(reportRow.H.OrderOrdDt)
 
 		if isInvoiceDone(reportRow.H.OrderCSOrdNo) {
 			continue

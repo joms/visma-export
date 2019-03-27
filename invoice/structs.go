@@ -93,8 +93,8 @@ type orderHeading struct {
 	FirmAd4        string
 	FirmPNo        string
 	FirmPArea      string
-	OrderOrdDt     string
-	OrderDelDt     string `gorm:"column:OrderDate"`
+	OrderOrdDt     string `gorm:"column:OrderDate"`
+	OrderDelDt     string
 	OrderCfDelDt   string
 	OrderPmtTrm    string
 	OrderPmtMt     string
@@ -163,7 +163,7 @@ func orderDateToVismaDate(s string) string {
 		return ""
 	}
 
-	return t.Format("02012006")
+	return t.Format("20060102")
 }
 
 func (o orderHeading) ToSlice() []string {
