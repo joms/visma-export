@@ -94,7 +94,7 @@ type orderHeading struct {
 	FirmPNo        string
 	FirmPArea      string
 	OrderOrdDt     string `gorm:"column:OrderDate"`
-	OrderDelDt     string
+	OrderDelDt     string `gorm:"column:DeliveryDate"`
 	OrderCfDelDt   string
 	OrderPmtTrm    string
 	OrderPmtMt     string
